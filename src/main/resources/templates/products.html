@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout.html}">
+<head>
+    <title>Gerenciar Pratos</title>
+</head>
+<body>
+
+<div layout:fragment="content" th:remove="tag">
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Pratos</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a class="glyphicon glyphicon-user"></a></li>
+                <li><a href="#" sec:authentication="name"></a></li>
+            </ul>
+            <div class="navbar-form">
+                <div class="col-sm-3 col-md-3">
+                    <div class="input-group">
+                        <input type="search" class="form-control" placeholder="Procurar prato(s)" id="inputFilter">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default" id="searchButton"><i
+                                    class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}">Sair</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Listagem de pratos
+            </h3>
+            <table class="table table-striped table-hover" id="productTable">
+                <thead>
+                <tr class="">
+                    <th>Nome</th>
+                    <th>Quantitdade</th>
+                    <th>Preço</th>
+                    <th>Imagem</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${productPage.content}" id="products" class="">
+                    <td class="productname" th:text="${product.name}"></td>
+                    <td th:text="${product.quantity}"></td>
+                    <td th:text="'$' + ${product.price}"></td>
+                    <td>
+                        <img class="img-responsive" th:width="100px" th:height="100px" th:src="'/img/'+ ${product.imagem}"/>
+                    </td>
+                    <td>
+                        <a th:href="@{deliveryApp/product/delete/{id}(id=${product.id})}" class="btn btn-danger">Excluir</a>
+                        <a th:href="@{deliveryApp/product/edit/{id}(id=${product.id})}" class="btn btn-primary">Editar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li th:class="${productPage.number eq 0} ? 'hidden' : 'page-item'">
+                        <a th:href="@{/deliveryApp/products(size=${productPage.size}, page=${productPage.number})}"
+                           class="page-link" href="#" aria-label="Previous" id="previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Voltar</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                        <a th:href="@{/deliveryApp/products(size=${productPage.size}, page=${pageNumber})}"
+                           th:text=${pageNumber}
+                           th:class="${pageNumber==productPage.number + 1} ? active"></a>
+                    </li>
+                    <li th:class="${productPage.number + 1 == productPage.totalPages} ? 'hidden' : 'page-item'">
+                        <a class="page-link"
+                           th:href="@{/deliveryApp/products(size=${productPage.size}, page=${productPage.number + 2})}"
+                           aria-label="Next" id="next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Próximo</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <a href="/deliveryApp/product/add" class="btn btn-success">Adicionar prato</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
