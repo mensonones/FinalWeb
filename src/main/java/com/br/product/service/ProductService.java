@@ -22,6 +22,18 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
+    public Product findByName(String name){
+        Product p = productRepository.getByName(name);
+
+        return p;
+    }
+
+    public Product findById(Integer id){
+        Product p = productRepository.findById(id);
+
+        return p;
+    }
+
     public void saveProduct(Product product) {
         productRepository.save(product);
     }

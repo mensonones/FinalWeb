@@ -13,12 +13,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -65,14 +68,14 @@ public class MainController {
     }
 
 
-    @RequestMapping(value = "/deliveryApp/product/add")
+    @RequestMapping(value = "/product/add")
     public String addProduct(@Valid Model model) {
         model.addAttribute("product", new Product());
 
         return "addproduct";
     }
 
-    @RequestMapping(value = "/deliveryApp/product/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/product/save", method = RequestMethod.POST)
     public String save(Product product, RedirectAttributes redirectAttributes, @RequestParam("file") MultipartFile file) throws IOException{
 
         if(file.isEmpty()){
@@ -90,14 +93,14 @@ public class MainController {
 
         productService.saveProduct(product);
 
-        return "redirect:/products";
+        return "redirect:/deliveryApp/products";
     }
 
     @RequestMapping(value = "/product/delete/{id}", method = RequestMethod.GET)
     public String deleteProduct(@PathVariable("id") Integer id) {
         productService.deleteProduct(id);
 
-        return "redirect:/products";
+        return "redirect:/deliveryApp/products";
     }
 
     @RequestMapping(value = "/product/edit/{id}")
@@ -145,6 +148,53 @@ public class MainController {
         }
 
         return "listproducts";
+    }
+
+    @RequestMapping("/addToCart/{id}")
+    public String addToCart(@PathVariable Integer id, Model model, HttpSession session) {
+
+        Product p = productService.findById(id);
+
+        if (session.getAttribute("prodsess") == null) {
+
+            Map<String, Float> cart = new HashMap<>();
+            cart.put(p.getName(), p.getPrice());
+            session.setAttribute("prodsess", cart);
+            model.addAttribute("cart", cart);
+            Float sum = 0.0f;
+            for (Float val : cart.values()) {
+                sum += val;
+            }
+            model.addAttribute("sum", sum);
+        } else {
+
+            Map<String, Float> cart = (Map<String, Float>) session.getAttribute("prodsess");
+            cart.put(p.getName(), p.getPrice());
+            session.setAttribute("prodsess", cart);
+            model.addAttribute("cart", cart);
+            Float sum = 0.0f;
+            for (Float val : cart.values()) {
+                sum += val;
+            }
+            model.addAttribute("sum", sum);
+
+        }
+
+        return "orders";
+
+    }
+
+    @RequestMapping("/cart")
+    public String cart(HttpSession session, Model model) {
+
+        Map<String, Integer> cart = (Map<String, Integer>) session.getAttribute("prodsess");
+        model.addAttribute("cart", cart);
+        Integer sum = 0;
+        for (Integer val : cart.values()) {
+            sum += val;
+        }
+        model.addAttribute("sum", sum);
+        return "show-cart";
     }
 
 

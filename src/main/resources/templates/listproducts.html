@@ -55,7 +55,7 @@
                                 <div class="pi-price">
                                     <span th:text="'$' + ${product.price}"/>
                                 </div>
-                                <a href="javascript:;" class="btn add2cart">Add to cart</a>
+                                <a th:href="@{/deliveryApp/addToCart/{id}(id=${product.id})}" class="btn add2cart">Add to cart</a>
                             </div>
                         </div>
                     </div>
