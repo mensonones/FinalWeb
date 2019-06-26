@@ -1,11 +1,18 @@
 package com.br.product.controller;
 
+import com.br.product.model.User;
+import com.br.product.repository.UserRepository;
 import com.br.product.service.ProductService;
 import com.br.product.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +41,17 @@ public class MainController {
 
     private static String UPLOADED_FOLDER = "/home/emerson/spring-boot-product-system-master/src/main/resources/static/img/";
 
+    @Autowired
+    private UserRepository userRepository;
     private ProductService productService;
-
+    @Autowired
+    private JavaMailSender javaMailSender;
     private static int currentPage = 1;
     private static int pageSize = 5;
+
+    Map<String, Float> conteudo = new HashMap<String, Float>();
+    Float totalPedido = 0.0f;
+
     private static final Logger LOG = Logger.getLogger(MainController.class.getName());
 
     @Autowired
@@ -153,7 +167,9 @@ public class MainController {
     @RequestMapping("/addToCart/{id}")
     public String addToCart(@PathVariable Integer id, Model model, HttpSession session) {
 
+
         Product p = productService.findById(id);
+
 
         if (session.getAttribute("prodsess") == null) {
 
@@ -163,6 +179,8 @@ public class MainController {
             model.addAttribute("cart", cart);
             Float sum = 0.0f;
             for (Float val : cart.values()) {
+                //System.out.println(cart);
+                //System.out.println(cart.values());
                 sum += val;
             }
             model.addAttribute("sum", sum);
@@ -173,28 +191,60 @@ public class MainController {
             session.setAttribute("prodsess", cart);
             model.addAttribute("cart", cart);
             Float sum = 0.0f;
+            System.out.println(cart.getClass().getSimpleName());
             for (Float val : cart.values()) {
+                 //System.out.println(cart);
+                //System.out.println(cart.values());
                 sum += val;
+                conteudo = cart;
+
+                System.out.println(conteudo);
             }
             model.addAttribute("sum", sum);
-
+            totalPedido = sum;
         }
 
         return "orders";
 
     }
 
-    @RequestMapping("/cart")
-    public String cart(HttpSession session, Model model) {
+    @RequestMapping("/delete")
+    public String deleteFromCart(@RequestParam("key") String key, HttpSession session, Model model) {
 
-        Map<String, Integer> cart = (Map<String, Integer>) session.getAttribute("prodsess");
-        model.addAttribute("cart", cart);
-        Integer sum = 0;
-        for (Integer val : cart.values()) {
+        Map<String, Float> cart = (Map<String, Float>) session.getAttribute("prodsess");
+        cart.remove(key);
+        Float sum = 0.0f;
+        for (Float val : cart.values()) {
             sum += val;
         }
+        session.setAttribute("prodsess", cart);
+        model.addAttribute("cart", cart);
         model.addAttribute("sum", sum);
-        return "show-cart";
+        return "redirect:/deliveryApp/productsForSale";
+    }
+
+    @RequestMapping(path = "/email-send", method = RequestMethod.GET)
+    public String sendMail() {
+
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = loggedInUser.getName();
+
+        User user = userRepository.findByEmail(email);
+
+       // System.out.println(user.getEmail());
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(user.getName() + "-" + conteudo.toString() + totalPedido + "-" + user.getEndereco());
+        message.setTo("mensones@outlook.com");
+        message.setFrom("mensones.1@gmail.com");
+
+        try {
+            javaMailSender.send(message);
+            return "redirect:/deliveryApp/productsForSale";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/deliveryApp/addToCart";
+        }
     }
 
 

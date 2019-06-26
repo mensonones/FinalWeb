@@ -1,14 +1,252 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{fragments/layout}">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </head>
+<style>
+
+    html{
+        background-repeat: no-repeat;
+        background-color: #d3d3d3;
+        width: 100%;
+        background-size: 600% 100%;
+        -webkit-animation: HeroBG 20s ease infinite;
+        animation: HeroBG 20s ease infinite;
+    }
+
+    body {
+        padding-top: 90px;
+        color: #666666;
+        font-family: 'Roboto', sans-serif;
+        font-weight:100;
+    }
+
+    body{
+        background-repeat: no-repeat;
+        background-color: #d3d3d3;
+        width: 100%;
+        background-size: 600% 100%;
+        -webkit-animation: HeroBG 20s ease infinite;
+        animation: HeroBG 20s ease infinite;
+    }
+
+    @-webkit-keyframes HeroBG {
+        0% {
+            background-position: 0 0;
+        }
+        50% {
+            background-position: 100% 0;
+        }
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+    @keyframes HeroBG {
+        0% {
+            background-position: 0 0;
+        }
+        50% {
+            background-position: 100% 0;
+        }
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+
+    .panel {
+        border-radius: 5px;
+    }
+    label {
+        font-weight: 300;
+    }
+    .panel-login {
+        border: none;
+        -webkit-box-shadow: 0px 0px 49px 14px rgba(188,190,194,0.39);
+        -moz-box-shadow: 0px 0px 49px 14px rgba(188,190,194,0.39);
+        box-shadow: 0px 0px 49px 14px rgba(188,190,194,0.39);
+    }
+    .panel-login .checkbox input[type=checkbox]{
+        margin-left: 0px;
+    }
+    .panel-login .checkbox label {
+        padding-left: 25px;
+        font-weight: 300;
+        display: inline-block;
+        position: relative;
+    }
+    .panel-login .checkbox {
+        padding-left: 20px;
+    }
+    .panel-login .checkbox label::before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        width: 17px;
+        height: 17px;
+        left: 0;
+        margin-left: 0px;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        background-color: #fff;
+        -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+        -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+        transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    }
+    .panel-login .checkbox label::after {
+        display: inline-block;
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        left: 0;
+        top: 0;
+        margin-left: 0px;
+        padding-left: 3px;
+        padding-top: 1px;
+        font-size: 11px;
+        color: #555555;
+    }
+    .panel-login .checkbox input[type="checkbox"] {
+        opacity: 0;
+    }
+    .panel-login .checkbox input[type="checkbox"]:focus + label::before {
+        outline: thin dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+    }
+    .panel-login .checkbox input[type="checkbox"]:checked + label::after {
+        font-family: 'FontAwesome';
+        content: "\f00c";
+    }
+    .panel-login>.panel-heading .tabs{
+        padding: 0;
+    }
+    .panel-login h2{
+        font-size: 20px;
+        font-weight: 300;
+        margin: 30px;
+    }
+    .panel-login>.panel-heading {
+        color: #848c9d;
+        background-color: #e8e9ec;
+        border-color: #fff;
+        text-align:center;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom: 0px;
+        padding: 0px 15px;
+    }
+    .panel-login .form-group {
+        padding: 0 30px;
+    }
+    .panel-login>.panel-heading .login {
+        padding: 20px 30px;
+        border-bottom-leftt-radius: 5px;
+    }
+    .panel-login>.panel-heading .register {
+        padding: 20px 30px;
+        background: #1c92d2;
+        border-bottom-right-radius: 5px;
+    }
+    .panel-login>.panel-heading a{
+        text-decoration: none;
+        color: #666;
+        font-weight: 300;
+        font-size: 16px;
+        -webkit-transition: all 0.1s linear;
+        -moz-transition: all 0.1s linear;
+        transition: all 0.1s linear;
+    }
+    .panel-login>.panel-heading a#register-form-link {
+        color: #fff;
+        width: 100%;
+        text-align: right;
+    }
+    .panel-login>.panel-heading a#login-form-link {
+        width: 100%;
+        text-align: left;
+    }
+
+    .panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
+        height: 45px;
+        border: 0;
+        font-size: 16px;
+        -webkit-transition: all 0.1s linear;
+        -moz-transition: all 0.1s linear;
+        transition: all 0.1s linear;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-bottom: 1px solid #e7e7e7;
+        border-radius: 0px;
+        padding: 6px 0px;
+    }
+    .panel-login input:hover,
+    .panel-login input:focus {
+        outline:none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        border-color: #ccc;
+    }
+    .btn-login {
+        background-color: #E8E9EC;
+        outline: none;
+        color: #1c92d2;
+        font-size: 14px;
+        height: auto;
+        font-weight: normal;
+        padding: 14px 0;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 0px;
+        box-shadow: none;
+    }
+    .btn-login:hover,
+    .btn-login:focus {
+        color: #fff;
+        background-color: #1c92d2;
+    }
+    .forgot-password {
+        text-decoration: underline;
+        color: #888;
+    }
+    .forgot-password:hover,
+    .forgot-password:focus {
+        text-decoration: underline;
+        color: #666;
+    }
+
+    .btn-register {
+        background-color: #E8E9EC;
+        outline: none;
+        color: #1c92d2;
+        font-size: 14px;
+        height: auto;
+        font-weight: normal;
+        padding: 14px 0;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 0px;
+        box-shadow: none;
+    }
+    .btn-register:hover,
+    .btn-register:focus {
+        color: #fff;
+        background-color: #1c92d2;
+    }
+
+</style>
 <body>
-<div layout:fragment="content" th:remove="tag">
+<div>
     <div class="panel-heading">
         <div class="panel-title text-center">
             <h1 class="title">Delivery System</h1>
@@ -86,6 +324,42 @@
                                        th:text="${error}">Validation error</p>
                                 </div>
                                 <div class="form-group"
+                                     th:classappend="${#fields.hasErrors('name')}? 'has-error':''">
+                                    <input id="name" required="required" placeholder="Nome"
+                                           class="form-control"
+                                           th:field="*{name}"/>
+                                    <p class="alert alert-danger"
+                                       th:each="error : ${#fields.errors('name')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+                                <div class="form-group"
+                                     th:classappend="${#fields.hasErrors('cpf')}? 'has-error':''">
+                                    <input id="cpf" required="required" placeholder="CPF"
+                                           class="form-control"
+                                           th:field="*{cpf}"/>
+                                    <p class="alert alert-danger"
+                                       th:each="error : ${#fields.errors('cpf')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+                                <div class="form-group"
+                                     th:classappend="${#fields.hasErrors('endereco')}? 'has-error':''">
+                                    <input id="endereco" required="required" placeholder="Endereço"
+                                           class="form-control"
+                                           th:field="*{endereco}"/>
+                                    <p class="alert alert-danger"
+                                       th:each="error : ${#fields.errors('endereco')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+                                <div class="form-group"
+                                     th:classappend="${#fields.hasErrors('nascimento')}? 'has-error':''">
+                                    <input id="nascimento" type="date" required="required" placeholder="Data Nascimento"
+                                           class="form-control"
+                                           th:field="*{nascimento}"/>
+                                    <p class="alert alert-danger"
+                                       th:each="error : ${#fields.errors('nascimento')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+                                <div class="form-group"
                                      th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
                                     <input id="password" required="required" placeholder="Senha"
                                            class="form-control"
@@ -149,13 +423,47 @@
         </div>
     </div>
 </div>
-<footer>
-    <div class="container">
-        <div class="col-md-10 col-md-offset-1 text-center">
-            <h6 style="font-size:14px;font-weight:100;color: #fff;">Coded with <i class="fa fa-heart red"
-                                                                                  style="color: #BC0213;"></i> by <a
-                    href="http://hashif.com" style="color: #fff;" target="_blank">Hashif</a></h6>
-        </div>
-    </div>
-</footer>
+<script>
+    console.log("teste");
+    $(document).ready(function () {
+        $("#inputFilter").on("keyup", function () {
+            var inputValue = $(this).val().toLowerCase();
+            $("#productTable tr#products").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(inputValue) > -1)
+            });
+        });
+
+
+        $('#it').click(function () {
+            $('ul.dropdown-menu').toggle();
+        });
+
+        var pathName = window.location.pathname;
+        if (pathName == "/registration") {
+            $("#register-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $('#register-form-link').addClass('active');
+        }
+
+    });
+
+    $(function () {
+        $('#login-form-link').click(function (e) {
+            $("#login-form").delay(100).fadeIn(100);
+            $("#register-form").fadeOut(100);
+            $('#register-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+
+        $('#register-form-link').click(function (e) {
+            $("#register-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+    });
+</script>
 </body>

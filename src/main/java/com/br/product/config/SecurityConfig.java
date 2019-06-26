@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,14 +41,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/",
+                        "/resources/static/**/*",
                         "/login",
                         "/registration",
                         "/js/**",
                         "/css/**",
                         "/img/**",
                         "/webjars/**",
-                        "/deliveryApp/productsForSale").permitAll()
-                    .antMatchers("/deliveryApp/product/delete", "/deliveryApp/product/add").hasAuthority("ROLE_ADMIN")
+                        "/deliveryApp/productsForSale").permitAll ()
+                    .antMatchers("/deliveryApp/product/delete", "/deliveryApp/products", "/deliveryApp/product/add").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()

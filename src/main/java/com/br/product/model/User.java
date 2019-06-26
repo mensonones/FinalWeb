@@ -1,7 +1,10 @@
 package com.br.product.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -14,6 +17,12 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private String name;
+    private String cpf;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date nascimento;
+
+    private String endereco;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -27,16 +36,25 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String name, String cpf, Date nascimento, String endereco) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.cpf = cpf;
+        this.nascimento = nascimento;
+        this.endereco = endereco;
     }
 
-    public User(String username, String email, String password, Collection<Role> roles) {
+    public User(String username, String email, String password,  String name, String cpf,
+                Date nascimento, String endereco, Collection<Role> roles) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.cpf = cpf;
+        this.nascimento = nascimento;
+        this.endereco = endereco;
         this.roles = roles;
     }
 
@@ -70,6 +88,38 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public Date getNascimento() {
+        return nascimento;
+    }
+
+    public void setNascimento(Date nascimento) {
+        this.nascimento = nascimento;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public Collection<Role> getRoles() {

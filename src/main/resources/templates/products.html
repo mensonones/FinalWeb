@@ -105,5 +105,20 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $("#inputFilter").on("keyup", function () {
+            var inputValue = $(this).val().toLowerCase();
+            $("#productTable tr#products").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(inputValue) > -1)
+            });
+        });
+
+
+        $('#it').click(function () {
+            $('ul.dropdown-menu').toggle();
+        });
+    });
+</script>
 </body>
 </html>
