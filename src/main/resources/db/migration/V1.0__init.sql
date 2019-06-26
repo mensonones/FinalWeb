@@ -1,46 +1,129 @@
-CREATE TABLE IF NOT EXISTS `category` (
-                                          `id` int(11) NOT NULL AUTO_INCREMENT,
-                                          `category_name` varchar(255) NOT NULL,
-                                          PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+--
+-- PostgreSQL database dump
+--
 
-CREATE TABLE IF NOT EXISTS`product` (
-                                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                                        `created_at` datetime DEFAULT NULL,
-                                        `name` varchar(255) DEFAULT NULL,
-                                        `price` float DEFAULT NULL,
-                                        `quantity` int(11) DEFAULT NULL,
-                                        `updated_at` datetime DEFAULT NULL,
-                                        `imagem` varchar(255) DEFAULT NULL,
-                                        PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- Dumped from database version 9.6.10
+-- Dumped by pg_dump version 9.6.10
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
-CREATE TABLE `user` (
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
+--
 
-                        `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                        `email` varchar(255) DEFAULT NULL,
-                        `username` varchar(255) DEFAULT NULL,
-                        `password` varchar(255) DEFAULT NULL,
-                        `cpf` varchar(255) DEFAULT NULL,
-                        `name` varchar(255) DEFAULT NULL,
-                        `nascimento` datetime DEFAULT NULL,
-                        `endereco` varchar(255) DEFAULT NULL,
-                        PRIMARY KEY (`id`),
-                        UNIQUE KEY `UKob8kqyqqgmefl0aco34akdtpe` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
-CREATE TABLE `role` (
-                        `id` bigint(20) NOT NULL AUTO_INCREMENT,
-                        `name` varchar(255) DEFAULT NULL,
-                        PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `users_roles` (
-                               `user_id` bigint(20) NOT NULL,
-                               `role_id` bigint(20) NOT NULL,
-                               KEY `FKt4v0rrweyk393bdgt107vdx0x` (`role_id`),
-                               KEY `FKgd3iendaoyh04b95ykqise6qh` (`user_id`),
-                               CONSTRAINT `FKgd3iendaoyh04b95ykqise6qh` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-                               CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: _product; Type: TABLE; Schema: public; Owner: rebasedata
+--
+
+CREATE TABLE public._product (
+                                 id text,
+                                 created_at text,
+                                 name text,
+                                 price text,
+                                 quantity text,
+                                 updated_at text,
+                                 imagem text
+);
+
+
+ALTER TABLE public._product OWNER TO rebasedata;
+
+--
+-- Name: _role; Type: TABLE; Schema: public; Owner: rebasedata
+--
+
+CREATE TABLE public._role (
+                              id text,
+                              name text
+);
+
+
+ALTER TABLE public._role OWNER TO rebasedata;
+
+--
+-- Name: _user; Type: TABLE; Schema: public; Owner: rebasedata
+--
+
+CREATE TABLE public._user (
+                              id text,
+                              email text,
+                              username text,
+                              password text,
+                              cpf text,
+                              name text,
+                              nascimento text,
+                              endereco text
+);
+
+
+ALTER TABLE public._user OWNER TO rebasedata;
+
+--
+-- Name: _users_roles; Type: TABLE; Schema: public; Owner: rebasedata
+--
+
+CREATE TABLE public._users_roles (
+                                     user_id text,
+                                     role_id text
+);
+
+
+ALTER TABLE public._users_roles OWNER TO rebasedata;
+
+--
+-- Data for Name: _product; Type: TABLE DATA; Schema: public; Owner: rebasedata
+--
+
+COPY public._product (id, created_at, name, price, quantity, updated_at, imagem) FROM stdin;
+\.
+
+
+--
+-- Data for Name: _role; Type: TABLE DATA; Schema: public; Owner: rebasedata
+--
+
+COPY public._role (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: _user; Type: TABLE DATA; Schema: public; Owner: rebasedata
+--
+
+COPY public._user (id, email, username, password, cpf, name, nascimento, endereco) FROM stdin;
+\.
+
+
+--
+-- Data for Name: _users_roles; Type: TABLE DATA; Schema: public; Owner: rebasedata
+--
+
+COPY public._users_roles (user_id, role_id) FROM stdin;
+\.
+
+
+--
+-- PostgreSQL database dump complete
+--
