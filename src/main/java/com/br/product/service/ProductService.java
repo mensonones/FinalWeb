@@ -43,6 +43,6 @@ public class ProductService {
     }
 
     public Product getProductById(Integer id) {
-        return productRepository.findOne(id);
+        return productRepository.findById(id);
     }
 }

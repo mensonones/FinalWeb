@@ -69,8 +69,8 @@
                         <img class="img-responsive" th:width="100px" th:height="100px" th:src="'/img/'+ ${product.imagem}"/>
                     </td>
                     <td>
-                        <a th:href="@{deliveryApp/product/delete/{id}(id=${product.id})}" class="btn btn-danger">Excluir</a>
-                        <a th:href="@{deliveryApp/product/edit/{id}(id=${product.id})}" class="btn btn-primary">Editar</a>
+                        <a th:href="@{/deliveryApp/product/delete/{id}(id=${product.id})}" class="btn btn-danger">Excluir</a>
+                        <a th:href="@{/deliveryApp/product/edit/{id}(id=${product.id})}" class="btn btn-primary">Editar</a>
                     </td>
                 </tr>
                 </tbody>

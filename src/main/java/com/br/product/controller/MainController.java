@@ -39,7 +39,7 @@ import java.util.stream.IntStream;
 public class MainController {
 
 
-    private static String UPLOADED_FOLDER = "/home/emerson/spring-boot-product-system-master/src/main/resources/static/img/";
+    private static String UPLOADED_FOLDER = "/home/emerson/Documentos/deliveryApp/src/main/resources/static/img/";
 
     @Autowired
     private UserRepository userRepository;
@@ -139,7 +139,7 @@ public class MainController {
 
         productService.saveProduct(product);
 
-        return "redirect:/products";
+        return "redirect:/deliveryApp/products";
     }
 
     @RequestMapping(value = "/productsForSale")
@@ -179,8 +179,6 @@ public class MainController {
             model.addAttribute("cart", cart);
             Float sum = 0.0f;
             for (Float val : cart.values()) {
-                //System.out.println(cart);
-                //System.out.println(cart.values());
                 sum += val;
             }
             model.addAttribute("sum", sum);

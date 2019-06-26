@@ -28,10 +28,6 @@ public class Product {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    /*@ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;*/
-
     private String imagem;
 
     public Integer getId() {
@@ -74,13 +70,6 @@ public class Product {
         return updatedAt;
     }
 
-   /* public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }*/
 
     public String getImagem() {
         return imagem;

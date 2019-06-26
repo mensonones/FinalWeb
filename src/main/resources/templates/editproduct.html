@@ -4,6 +4,7 @@
       layout:decorate="~{fragments/layout.html}">
 <head>
     <title>Editar prato</title>
+    <script type="text/javascript" th:src="@{../static/js/principal.js}"></script>
 </head>
 <body>
 <div layout:fragment="content" th:remove="tag">
@@ -12,7 +13,7 @@
             <h3>Editar prato</h3>
         </div>
         <div class="panel-body">
-            <form th:object="${product}" th:action="@{../deliveryApp/product/update}" action="#" method="post" enctype="multipart/form-data">
+            <form th:object="${product}" th:action="@{../update}" action="#" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <input type="hidden" class="form-control" id="id" th:field="*{id}"/>
@@ -35,7 +36,7 @@
                     <input type="file" th:value="'/img/'+ *{imagem}" name="file"/><br/><br/>
                 </div>
                 <button type="submit" class="btn btn-primary" value="Save">Salvar</button>
-                <a class="btn btn-danger" th:href="@{/deliveryApp/products}">Cancelar</a>
+                <a class="btn btn-danger" th:href="@{/deliveryApp/products/}">Cancelar</a>
             </form>
         </div>
     </div>
